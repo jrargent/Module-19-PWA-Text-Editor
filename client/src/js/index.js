@@ -26,6 +26,7 @@ const loadSpinner = () => {
 const editor = new Editor();
 
 if (typeof editor === "undefined") {
+  getDb();
   loadSpinner();
 }
 
