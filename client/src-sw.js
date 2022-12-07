@@ -1,5 +1,5 @@
 const { offlineFallback, warmStrategyCache } = require("workbox-recipes");
-const { CacheFirst } = require("workbox-strategies");
+const { CacheFirst, StaleWhileRevalidate } = require("workbox-strategies");
 const { registerRoute } = require("workbox-routing");
 const { CacheableResponsePlugin } = require("workbox-cacheable-response");
 const { ExpirationPlugin } = require("workbox-expiration");
@@ -40,8 +40,24 @@ const matchCallback = ({ request }) => {
 };
 
 registerRoute(
+  ({ request }) => request.destination === "image",
+  new CacheFirst({
+    cacheName: "my-image-cache",
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+      }),
+    ],
+  })
+);
+
+registerRoute(
   matchCallback,
-  new offlineFallback({
+  new StaleWhileRevalidate({
     cacheName,
     plugins: [
       new CacheableResponsePlugin({

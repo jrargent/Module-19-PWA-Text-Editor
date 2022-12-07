@@ -1,1 +1,1 @@
-(()=>{const e=document.getElementById("buttonInstall");window.addEventListener("beforeinstallprompt",(e=>{})),e.addEventListener("click",(async()=>{})),window.addEventListener("appinstalled",(e=>{}))})();
+({210:function(){const t=document.getElementById("buttonInstall");window.addEventListener("beforeinstallprompt",(e=>{e.preventDefault(),t.style.visibility="visible"})),t.addEventListener("click",(async()=>{this.prompt(),t.setAttribute("disabled",!0),t.textContent="Installed!"})),window.addEventListener("appinstalled",(t=>{console.log("👍","appinstalled",t)}))}})[210]();
