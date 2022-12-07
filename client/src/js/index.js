@@ -2,7 +2,6 @@ import { Workbox } from "workbox-window";
 import Editor from "./editor";
 import "./database";
 import "../css/style.css";
-
 import Logo from "../images/logo.png";
 
 const main = document.querySelector("#main");
@@ -26,14 +25,13 @@ const loadSpinner = () => {
 const editor = new Editor();
 
 if (typeof editor === "undefined") {
-  getDb();
   loadSpinner();
 }
 
 // Check if service workers are supported
 if ("serviceWorker" in navigator) {
   // register workbox service worker
-  const workboxSW = new Workbox("/src-sw.js");
+  const workboxSW = new Workbox("/service-worker.js");
   workboxSW.register();
 } else {
   console.error("Service workers are not supported in this browser.");
