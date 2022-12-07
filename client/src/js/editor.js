@@ -1,7 +1,7 @@
 // Import methods to save and get data from the indexedDB database in './database.js'
 import { getDb, putDb } from "./database";
 import { header } from "./header";
-const CodeMirror = require("codemirror");
+//const CodeMirror = require("codemirror");
 
 export default class {
   constructor() {
@@ -27,9 +27,14 @@ export default class {
     // Fall back to localStorage if nothing is stored in indexeddb, and if neither is available, set the value to header.
     getDb().then((result) => {
       console.info("Loaded data from IndexedDB, injecting into editor");
-      this.editor.setValue(
-        result[result.length - 1].content || localData || header
-      );
+
+      if (result.length > 0) {
+        this.editor.setValue(result[result.length - 1].content);
+      } else if (localData != null) {
+        this.editor.setValue(localData);
+      } else {
+        this.editor.setValue(header);
+      }
     });
 
     this.editor.on("change", () => {
